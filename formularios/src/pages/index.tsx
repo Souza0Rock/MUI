@@ -1,17 +1,17 @@
 import React, { useState } from "react"
+import {Form, InputForm} from "@/components";
 
 function Home () {
   
   const [fields, setFields] = useState({});
 
-  const handleChange = (name: any) => (event: any) => {
-    setFields({...fields, [name]: event.target.value });
-  };
-
-  console.log(fields);
+  console.log(fields, 'Fields')
   
   return (
-    <Form />
+    <Form 
+      state={fields}
+      setState={setFields}
+    />
   )
 }
 
