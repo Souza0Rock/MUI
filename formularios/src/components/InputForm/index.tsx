@@ -1,11 +1,11 @@
 import * as M from "@mui/material";
 import InputMask from "react-input-mask";
 
-function InputForm ({nameProp, itemChange, labelProp}: any) {
+function InputForm ({nameProp, itemChange, labelProp, maskProp, fieldsProp}: any) {
   return (
     
     <InputMask
-    mask={""}
+    mask={maskProp}
     onChange={itemChange}
     >
       {(inputProps: any) => 
@@ -17,7 +17,9 @@ function InputForm ({nameProp, itemChange, labelProp}: any) {
           name={nameProp} 
           margin="none"
           size="medium"
-          inputMode="numeric"
+          required
+          helperText="Campo obrigatório"
+          error={!fieldsProp.nameProp}
         />
       }
     </InputMask>

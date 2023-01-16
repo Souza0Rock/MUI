@@ -3,7 +3,7 @@ import InputForm from "../InputForm";
 import * as S from "./styled";
 import * as M from "@mui/material";
 
-function Form(this: any, inputProps: any, { itemChange }: any) {
+function Form () {
 
   const [fields, setFields] = useState({});
 
@@ -13,7 +13,6 @@ function Form(this: any, inputProps: any, { itemChange }: any) {
 
   console.log(fields, 'deu bom');
   
-
   return (
     <S.Container>
       <header>
@@ -38,13 +37,17 @@ function Form(this: any, inputProps: any, { itemChange }: any) {
         >
           <InputForm
             nameProp="rua"
-            labelProp="rua"
+            labelProp="Rua"
             itemChange={handleChange}
+            maskProp=""
+            fieldsProp={fields}
           />
           <InputForm
             nameProp="cep"
-            labelProp="cep"
+            labelProp="CEP"
             itemChange={handleChange}
+            maskProp="99999-999"
+            fieldsProp={fields}
           />
           
         </M.Grid>
@@ -58,13 +61,17 @@ function Form(this: any, inputProps: any, { itemChange }: any) {
         >
           <InputForm
             nameProp="numero"
-            labelProp="número"
+            labelProp="Número"
             itemChange={handleChange}
+            maskProp=""
+            fieldsProp={fields}
           />
           <InputForm
             nameProp="bairro"
-            labelProp="bairro"
+            labelProp="Bairro"
             itemChange={handleChange}
+            maskProp=""
+            fieldsProp={fields}
           />
         </M.Grid>
         <M.Grid 
@@ -77,13 +84,17 @@ function Form(this: any, inputProps: any, { itemChange }: any) {
         >
           <InputForm
             nameProp="cidade"
-            labelProp="cidade"
+            labelProp="Cidade"
             itemChange={handleChange}
+            maskProp=""
+            fieldsProp={fields}
           />
           <InputForm
             nameProp="estado"
-            labelProp="estado"
+            labelProp="Estado"
             itemChange={handleChange}
+            maskProp=""
+            fieldsProp={fields}
           />
         </M.Grid>
       </M.Grid>
