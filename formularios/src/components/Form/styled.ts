@@ -13,7 +13,8 @@ export const Container = styled.div`
   }
 
   .address {
-    margin-top: 2rem;
+    max-width: 50%;
+    margin: 4rem auto 0;
     text-align: center;
   }
 `;

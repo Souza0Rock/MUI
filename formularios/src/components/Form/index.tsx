@@ -15,7 +15,7 @@ function Form () {
 
   const [sla, setSla] = useState(false)
   console.log(sla, 'sla');
-  console.log(fields.rua?.length, 'rua');+1ghb
+  console.log(fields.rua?.length, 'rua');
 
   const teste = () => {
     if (fields.rua?.length === 0) {
