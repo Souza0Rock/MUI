@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { maskCEP, maskPhone } from "@/utils/mask";
 import InputForm from "../InputForm";
 import * as S from "./styled";
 import * as M from "@mui/material";
+import ButtonSubmit from "../ButtonSubmit";
 
 function Form () {
 
-  const [fields, setFields] = useState({});
+  const [fields, setFields] = useState<any>({});
 
   const handleChange = (e: any) => {
     setFields({ ...fields, [e.target.name]: e.target.value })
   }
 
-  console.log(fields, 'deu bom');
+  // console.log(fields.rua.length, 'deu bom');
+  const a = 'rua'
   
   return (
     <S.Container>
@@ -35,19 +38,22 @@ function Form () {
           alignItems="center"
           columnGap={3}
         >
+          {/* {console.log(fields.rua?.length, 'mostrando o erro')} */}
           <InputForm
             nameProp="rua"
             labelProp="Rua"
-            itemChange={handleChange}
-            maskProp=""
+            handleChangeProp={handleChange}
             fieldsProp={fields}
+            errorProp={fields.rua?.length === 0 }
           />
           <InputForm
             nameProp="cep"
             labelProp="CEP"
-            itemChange={handleChange}
-            maskProp="99999-999"
+            handleChangeProp={handleChange}
+            value={fields.cep && maskCEP(fields.cep)}
+            inputProps={{ maxLength: 8 }}
             fieldsProp={fields}
+            errorProp={fields.cep?.length === 0}
           />
           
         </M.Grid>
@@ -62,16 +68,16 @@ function Form () {
           <InputForm
             nameProp="numero"
             labelProp="Número"
-            itemChange={handleChange}
-            maskProp=""
+            handleChangeProp={handleChange}
             fieldsProp={fields}
+            errorProp={fields.numero?.length === 0}
           />
           <InputForm
             nameProp="bairro"
             labelProp="Bairro"
-            itemChange={handleChange}
-            maskProp=""
+            handleChangeProp={handleChange}
             fieldsProp={fields}
+            errorProp={fields.bairro?.length === 0}
           />
         </M.Grid>
         <M.Grid 
@@ -85,17 +91,25 @@ function Form () {
           <InputForm
             nameProp="cidade"
             labelProp="Cidade"
-            itemChange={handleChange}
-            maskProp=""
+            handleChangeProp={handleChange}
             fieldsProp={fields}
+            errorProp={fields.cidade?.length === 0}
           />
           <InputForm
             nameProp="estado"
             labelProp="Estado"
-            itemChange={handleChange}
-            maskProp=""
+            handleChangeProp={handleChange}
             fieldsProp={fields}
+            errorProp={fields.estado?.length === 0}
           />
+        </M.Grid>
+        <M.Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ButtonSubmit />
         </M.Grid>
       </M.Grid>
     </S.Container>

@@ -1,4 +1,5 @@
 import Form from "./Form";
 import InputForm from "./InputForm";
+import ButtonSubmit from "./ButtonSubmit";
 
-export { Form, InputForm }
+export { Form, InputForm, ButtonSubmit }

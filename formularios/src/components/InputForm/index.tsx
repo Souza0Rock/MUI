@@ -1,28 +1,30 @@
 import * as M from "@mui/material";
-import InputMask from "react-input-mask";
 
-function InputForm ({nameProp, itemChange, labelProp, maskProp, fieldsProp}: any) {
+function InputForm ({nameProp, handleChangeProp, labelProp, errorProp, value, inputProps, fieldsProp}: any) {
+
+  // console.log(fieldsProp.cep.length, 'prop');
+
+  // const teste = () => {
+  //   if (fieldsProp.rua.length === 0) {
+  //     true
+  //   }
+  //   else (false)
+  // }
+
   return (
-    
-    <InputMask
-    mask={maskProp}
-    onChange={itemChange}
-    >
-      {(inputProps: any) => 
-        <M.TextField
-          {...inputProps}
-          onChange={itemChange}
-          id="outlined-basic"
-          label={labelProp}
-          name={nameProp} 
-          margin="none"
-          size="medium"
-          required
-          helperText="Campo obrigatório"
-          error={!fieldsProp.nameProp}
-        />
-      }
-    </InputMask>
+    <M.TextField
+      onChange={handleChangeProp}
+      id="outlined-basic"
+      label={labelProp}
+      name={nameProp}
+      margin="none"
+      size="medium"
+      required
+      // helperText="Campo obrigatório"
+      value={value}
+      inputProps={inputProps}
+      error={errorProp}
+    />
   )
 }
 
