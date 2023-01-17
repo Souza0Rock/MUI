@@ -13,8 +13,31 @@ function Form () {
     setFields({ ...fields, [e.target.name]: e.target.value })
   }
 
-  // console.log(fields.rua.length, 'deu bom');
-  const a = 'rua'
+  const [sla, setSla] = useState(false)
+  console.log(sla, 'sla');
+  console.log(fields.rua?.length, 'rua');+1ghb
+
+  const teste = () => {
+    if (fields.rua?.length === 0) {
+      setSla(true);
+    }
+    // else if (fields.cep?.length === 0) {
+    //   setSla(true);
+    // }
+    // else if (fields.numero?.length === 0) {
+    //   setSla(true);
+    // }
+    // else if (fields.bairro?.length === 0) {
+    //   setSla(true);
+    // }
+    // else if (fields.cidade?.length === 0) {
+    //   setSla(true);
+    // }
+    // else if (fields.estado?.length === 0) {
+    //   setSla(true);
+    // }
+    else (false)
+  }
   
   return (
     <S.Container>
@@ -31,20 +54,20 @@ function Form () {
         rowGap={2}
       >
         <M.Grid 
-        // xs={12} sm={12} md={12} lg={12}
+          xs={12} sm={12} md={12} lg={12}
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
           columnGap={3}
         >
-          {/* {console.log(fields.rua?.length, 'mostrando o erro')} */}
           <InputForm
             nameProp="rua"
             labelProp="Rua"
             handleChangeProp={handleChange}
             fieldsProp={fields}
-            errorProp={fields.rua?.length === 0 }
+            errorProp={fields.rua?.length === 0}
+            slaProp={sla}
           />
           <InputForm
             nameProp="cep"
@@ -55,10 +78,9 @@ function Form () {
             fieldsProp={fields}
             errorProp={fields.cep?.length === 0}
           />
-          
         </M.Grid>
         <M.Grid 
-        // xs={12} sm={12} md={12} lg={12}
+          xs={12} sm={12} md={12} lg={12}
           container
           direction="row"
           justifyContent="center"
@@ -81,7 +103,7 @@ function Form () {
           />
         </M.Grid>
         <M.Grid 
-        // xs={12} sm={12} md={12} lg={12}
+          xs={12} sm={12} md={12} lg={12}
           container
           direction="row"
           justifyContent="center"
@@ -109,7 +131,7 @@ function Form () {
           justifyContent="center"
           alignItems="center"
         >
-          <ButtonSubmit />
+          <ButtonSubmit testeProp={teste} />
         </M.Grid>
       </M.Grid>
     </S.Container>
