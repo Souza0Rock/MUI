@@ -6,38 +6,35 @@ import InputForm from "../InputForm";
 import ButtonSubmit from "../ButtonSubmit";
 import { Api } from "@/services/api";
 
+
 import _ from "lodash";
 
 function Form () {
-
+  const [resposta, setResposta] = useState();
   const [fields, setFields] = useState<any>({
-    cep: "",
-    rua: "",
-    numero: "",
-    bairro: "",
-    cidade: "",
-    estado: ""
+    // cep: "",
+    // rua: "",
+    // numero: "",
+    // bairro: "",
+    // cidade: "",
+    // estado: ""
   });
 
   const handleChange = (e: any) => {
     setFields({ ...fields, [e.target.name]: e.target.value })
   }
 
-  console.log(fields.cep, 'fields');
+
+
+  const Teste = (value) => {
+    Api(value, setResposta)
+  }
+
+  console.log(resposta.logradouro, 'resposta');
   
   
   const [buttonClick, setButtonClick] = useState(false);
-  
-  console.log(buttonClick, 'button click');
-
-  const handleCep = _.debounce(async () => {
-    if (fields.cep.length === 8) {
-      const cepApi = await Api;
-      
-    }
-  })
-
-  
+  console.log(buttonClick, 'buttonClick');
   return (
     <S.Container>
       <header>
@@ -63,7 +60,7 @@ function Form () {
             nameProp="cep"
             labelProp="CEP"
             handleChangeProp={handleChange}
-            value={fields.cep && maskCEP(fields.cep)}
+            value={resposta ? maskCEP(resposta.cep) : fields.cep && maskCEP(fields.cep)}
             inputProps={{ maxLength: 8 }}
             fieldsProp={fields}
             errorProp={fields.cep?.length === 0}
@@ -80,6 +77,7 @@ function Form () {
             labelProp="Rua"
             handleChangeProp={handleChange}
             fieldsProp={fields}
+            value={'' || resposta?.logradouro}
             errorProp={fields.rua?.length === 0}
             validateProp={
               fields.rua?.length === 0 
@@ -102,6 +100,7 @@ function Form () {
             labelProp="Número"
             handleChangeProp={handleChange}
             fieldsProp={fields}
+            value={fields.numero || resposta?.gia}
             errorProp={fields.numero?.length === 0}
             validateProp={
               fields.numero?.length === 0 
@@ -115,6 +114,7 @@ function Form () {
             nameProp="bairro"
             labelProp="Bairro"
             handleChangeProp={handleChange}
+            value={fields.bairro || resposta?.bairro}
             fieldsProp={fields}
             errorProp={fields.bairro?.length === 0}
             validateProp={
@@ -138,6 +138,7 @@ function Form () {
             labelProp="Cidade"
             handleChangeProp={handleChange}
             fieldsProp={fields}
+            value={fields.cidade || resposta?.localidade}
             errorProp={fields.cidade?.length === 0}
             validateProp={
               fields.cidade?.length === 0 
@@ -152,6 +153,7 @@ function Form () {
             labelProp="Estado"
             handleChangeProp={handleChange}
             fieldsProp={fields}
+            value={fields.estado || resposta?.localidade}
             errorProp={fields.estado?.length === 0}
             validateProp={
               fields.estado?.length === 0 
@@ -168,9 +170,17 @@ function Form () {
           justifyContent="center"
           alignItems="center"
         >
-          <ButtonSubmit
-            setButtonClickProp={setButtonClick}
-          />
+          <M.Button
+            variant="contained"
+            color="primary"
+            sx={{
+              width: '81.4%',
+              marginTop: '10px'
+            }}
+            onClick={() => Teste(fields.cep, setResposta())}
+          >
+            enviar
+          </M.Button>
         </M.Grid>
       </M.Grid>
     </S.Container>
