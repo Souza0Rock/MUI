@@ -7,7 +7,7 @@ function InputForm ({
   errorProp,
   value,
   inputProps,
-  slaProp
+  validateProp
 }: any) {
 
   return (
@@ -19,7 +19,7 @@ function InputForm ({
       margin="none"
       size="medium"
       required
-      helperText={slaProp && "Campo obrigatório"}
+      helperText={validateProp && "Campo obrigatório"}
       value={value}
       inputProps={inputProps}
       error={errorProp}

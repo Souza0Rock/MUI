@@ -1,43 +1,42 @@
-import React, { useState } from "react";
-import { maskCEP, maskPhone } from "@/utils/mask";
-import InputForm from "../InputForm";
+import React, { useEffect, useState } from "react";
+import { maskCEP } from "@/utils/mask";
 import * as S from "./styled";
 import * as M from "@mui/material";
+import InputForm from "../InputForm";
 import ButtonSubmit from "../ButtonSubmit";
+import { Api } from "@/services/api";
+
+import _ from "lodash";
 
 function Form () {
 
-  const [fields, setFields] = useState<any>({});
+  const [fields, setFields] = useState<any>({
+    cep: "",
+    rua: "",
+    numero: "",
+    bairro: "",
+    cidade: "",
+    estado: ""
+  });
 
   const handleChange = (e: any) => {
     setFields({ ...fields, [e.target.name]: e.target.value })
   }
 
-  const [sla, setSla] = useState(false)
-  console.log(sla, 'sla');
-  console.log(fields.rua?.length, 'rua');
+  console.log(fields.cep, 'fields');
+  
+  
+  const [buttonClick, setButtonClick] = useState(false);
+  
+  console.log(buttonClick, 'button click');
 
-  const teste = () => {
-    if (fields.rua?.length === 0) {
-      setSla(true);
+  const handleCep = _.debounce(async () => {
+    if (fields.cep.length === 8) {
+      const cepApi = await Api;
+      
     }
-    // else if (fields.cep?.length === 0) {
-    //   setSla(true);
-    // }
-    // else if (fields.numero?.length === 0) {
-    //   setSla(true);
-    // }
-    // else if (fields.bairro?.length === 0) {
-    //   setSla(true);
-    // }
-    // else if (fields.cidade?.length === 0) {
-    //   setSla(true);
-    // }
-    // else if (fields.estado?.length === 0) {
-    //   setSla(true);
-    // }
-    else (false)
-  }
+  })
+
   
   return (
     <S.Container>
@@ -53,22 +52,13 @@ function Form () {
         container
         rowGap={2}
       >
-        <M.Grid 
-          xs={12} sm={12} md={12} lg={12}
+        <M.Grid
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
           columnGap={3}
         >
-          <InputForm
-            nameProp="rua"
-            labelProp="Rua"
-            handleChangeProp={handleChange}
-            fieldsProp={fields}
-            errorProp={fields.rua?.length === 0}
-            slaProp={sla}
-          />
           <InputForm
             nameProp="cep"
             labelProp="CEP"
@@ -77,10 +67,30 @@ function Form () {
             inputProps={{ maxLength: 8 }}
             fieldsProp={fields}
             errorProp={fields.cep?.length === 0}
+            validateProp={
+              fields.cep?.length === 0 
+              || fields.cep?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
+          />
+          <InputForm
+            nameProp="rua"
+            labelProp="Rua"
+            handleChangeProp={handleChange}
+            fieldsProp={fields}
+            errorProp={fields.rua?.length === 0}
+            validateProp={
+              fields.rua?.length === 0 
+              || fields.rua?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
           />
         </M.Grid>
-        <M.Grid 
-          xs={12} sm={12} md={12} lg={12}
+        <M.Grid
           container
           direction="row"
           justifyContent="center"
@@ -93,6 +103,13 @@ function Form () {
             handleChangeProp={handleChange}
             fieldsProp={fields}
             errorProp={fields.numero?.length === 0}
+            validateProp={
+              fields.numero?.length === 0 
+              || fields.numero?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
           />
           <InputForm
             nameProp="bairro"
@@ -100,10 +117,16 @@ function Form () {
             handleChangeProp={handleChange}
             fieldsProp={fields}
             errorProp={fields.bairro?.length === 0}
+            validateProp={
+              fields.bairro?.length === 0 
+              || fields.bairro?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
           />
         </M.Grid>
-        <M.Grid 
-          xs={12} sm={12} md={12} lg={12}
+        <M.Grid
           container
           direction="row"
           justifyContent="center"
@@ -116,6 +139,13 @@ function Form () {
             handleChangeProp={handleChange}
             fieldsProp={fields}
             errorProp={fields.cidade?.length === 0}
+            validateProp={
+              fields.cidade?.length === 0 
+              || fields.cidade?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
           />
           <InputForm
             nameProp="estado"
@@ -123,6 +153,13 @@ function Form () {
             handleChangeProp={handleChange}
             fieldsProp={fields}
             errorProp={fields.estado?.length === 0}
+            validateProp={
+              fields.estado?.length === 0 
+              || fields.estado?.length === undefined 
+              && buttonClick === true
+              ? true 
+              : false
+            }
           />
         </M.Grid>
         <M.Grid
@@ -131,7 +168,9 @@ function Form () {
           justifyContent="center"
           alignItems="center"
         >
-          <ButtonSubmit testeProp={teste} />
+          <ButtonSubmit
+            setButtonClickProp={setButtonClick}
+          />
         </M.Grid>
       </M.Grid>
     </S.Container>
