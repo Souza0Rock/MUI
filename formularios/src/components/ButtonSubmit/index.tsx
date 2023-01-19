@@ -1,8 +1,6 @@
 import * as M from "@mui/material";
 
-function ButtonSubmit ( onClick: any) {
-
-
+function ButtonSubmit ({setButtonClickProp}: any) {
 
   return (
     <M.Button 
@@ -12,7 +10,7 @@ function ButtonSubmit ( onClick: any) {
         width: '81.4%',
         marginTop: '10px'
       }}
-      onClick={onClick()}
+      onClick={() => setButtonClickProp(true)}
     >
       enviar
     </M.Button>

@@ -5,9 +5,9 @@ function InputForm ({
   handleChangeProp,
   labelProp,
   errorProp,
-  value,
-  inputProps,
-  validateProp
+  valueProp,
+  maxLengthProp,
+  validateProp,
 }: any) {
 
   return (
@@ -20,8 +20,8 @@ function InputForm ({
       size="medium"
       required
       helperText={validateProp && "Campo obrigatório"}
-      value={value}
-      inputProps={inputProps}
+      value={valueProp}
+      inputProps={maxLengthProp}
       error={errorProp}
     />
   )

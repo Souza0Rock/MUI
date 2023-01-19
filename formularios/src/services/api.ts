@@ -1,15 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
 
-export async function Api (data: any, setResposta: any) {
-
-
+export async function Api ({ batata, setResposta }: any) {
+ 
+  const baseURL = `https://viacep.com.br/ws/${batata}/json/`
   
-  const baseURL = `https://viacep.com.br/ws/${data}/json/`
-  console.log('entrei');
+  console.log(batata, 'batata', batata?.length, 'batata length');
   
   return axios.get(baseURL)
-  .then((response) => {
+  .then((response: any) => {
       setResposta(response.data)
       console.log(response.data, 'api resposta');
   })

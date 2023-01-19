@@ -6,35 +6,39 @@ import InputForm from "../InputForm";
 import ButtonSubmit from "../ButtonSubmit";
 import { Api } from "@/services/api";
 
+interface IResposta {
+  bairro: string,
+  localidade: string,
+  logradouro: string,
+  uf: string,
+}
 
-import _ from "lodash";
 
 function Form () {
-  const [resposta, setResposta] = useState();
+  const [resposta, setResposta] = useState<IResposta>();
   const [fields, setFields] = useState<any>({
-    // cep: "",
-    // rua: "",
-    // numero: "",
-    // bairro: "",
-    // cidade: "",
-    // estado: ""
+    cep: "",
+    rua: "",
+    numero: "",
+    bairro: "",
+    cidade: "",
+    estado: ""
   });
 
+  const [batata, setBatata] = useState('');
+
   const handleChange = (e: any) => {
-    setFields({ ...fields, [e.target.name]: e.target.value })
+    setFields({ ...fields, [e.target.name]: e.target.value });
+    // if (fields.cep?.length > 2) {
+      Api({setResposta, batata});
+    // }
+    setBatata(fields?.cep);
   }
-
-
-
-  const Teste = (value) => {
-    Api(value, setResposta)
-  }
-
-  console.log(resposta.logradouro, 'resposta');
   
-  
-  const [buttonClick, setButtonClick] = useState(false);
-  console.log(buttonClick, 'buttonClick');
+  const [buttonClick, setButtonClick] = useState(false);  
+
+  console.log(fields.cep, 'fields cep', fields.cep.length, 'fields cep length');  
+
   return (
     <S.Container>
       <header>
@@ -60,15 +64,14 @@ function Form () {
             nameProp="cep"
             labelProp="CEP"
             handleChangeProp={handleChange}
-            value={resposta ? maskCEP(resposta.cep) : fields.cep && maskCEP(fields.cep)}
-            inputProps={{ maxLength: 8 }}
+            maxLengthProps={{ maxLength: 8 }}
             fieldsProp={fields}
-            errorProp={fields.cep?.length === 0}
+            errorProp={fields.cep?.length === 0 && buttonClick === true}
+            valueProp={maskCEP(fields.cep)}
             validateProp={
-              fields.cep?.length === 0 
-              || fields.cep?.length === undefined 
-              && buttonClick === true
-              ? true 
+              fields.cep?.length === 0 && buttonClick === true
+              || fields.cep?.length === undefined && buttonClick === true
+              ? true
               : false
             }
           />
@@ -77,12 +80,13 @@ function Form () {
             labelProp="Rua"
             handleChangeProp={handleChange}
             fieldsProp={fields}
-            value={'' || resposta?.logradouro}
-            errorProp={fields.rua?.length === 0}
+            valueProp={resposta ? 
+              resposta.logradouro :
+              fields.rua
+            }
             validateProp={
-              fields.rua?.length === 0 
-              || fields.rua?.length === undefined 
-              && buttonClick === true
+              fields.rua?.length === 0 && buttonClick === true
+              || fields.rua?.length === undefined && buttonClick === true
               ? true 
               : false
             }
@@ -100,12 +104,10 @@ function Form () {
             labelProp="Número"
             handleChangeProp={handleChange}
             fieldsProp={fields}
-            value={fields.numero || resposta?.gia}
-            errorProp={fields.numero?.length === 0}
+            errorProp={fields.numero?.length === 0 && buttonClick === true}
             validateProp={
-              fields.numero?.length === 0 
-              || fields.numero?.length === undefined 
-              && buttonClick === true
+              fields.numero?.length === 0 && buttonClick === true
+              || fields.numero?.length === undefined && buttonClick === true
               ? true 
               : false
             }
@@ -114,13 +116,15 @@ function Form () {
             nameProp="bairro"
             labelProp="Bairro"
             handleChangeProp={handleChange}
-            value={fields.bairro || resposta?.bairro}
             fieldsProp={fields}
-            errorProp={fields.bairro?.length === 0}
+            // errorProp={fields.bairro?.length === 0}
+            valueProp={resposta ? 
+              resposta.bairro : 
+              fields.bairro
+            }
             validateProp={
-              fields.bairro?.length === 0 
-              || fields.bairro?.length === undefined 
-              && buttonClick === true
+              fields.bairro?.length === 0 && buttonClick === true
+              || fields.bairro?.length === undefined && buttonClick === true
               ? true 
               : false
             }
@@ -138,12 +142,14 @@ function Form () {
             labelProp="Cidade"
             handleChangeProp={handleChange}
             fieldsProp={fields}
-            value={fields.cidade || resposta?.localidade}
-            errorProp={fields.cidade?.length === 0}
+            // errorProp={fields.cidade?.length === 0}
+            valueProp={resposta ? 
+              resposta.localidade : 
+              fields.cidade
+            }
             validateProp={
-              fields.cidade?.length === 0 
-              || fields.cidade?.length === undefined 
-              && buttonClick === true
+              fields.cidade?.length === 0 && buttonClick === true
+              || fields.cidade?.length === undefined && buttonClick === true
               ? true 
               : false
             }
@@ -153,12 +159,14 @@ function Form () {
             labelProp="Estado"
             handleChangeProp={handleChange}
             fieldsProp={fields}
-            value={fields.estado || resposta?.localidade}
-            errorProp={fields.estado?.length === 0}
+            // errorProp={fields.estado?.length === 0}
+            valueProp={resposta ?
+              resposta.uf :
+              fields.estado
+            }
             validateProp={
-              fields.estado?.length === 0 
-              || fields.estado?.length === undefined 
-              && buttonClick === true
+              fields.estado?.length === 0 && buttonClick === true
+              || fields.estado?.length === undefined && buttonClick === true
               ? true 
               : false
             }
@@ -170,17 +178,9 @@ function Form () {
           justifyContent="center"
           alignItems="center"
         >
-          <M.Button
-            variant="contained"
-            color="primary"
-            sx={{
-              width: '81.4%',
-              marginTop: '10px'
-            }}
-            onClick={() => Teste(fields.cep, setResposta())}
-          >
-            enviar
-          </M.Button>
+          <ButtonSubmit
+            setButtonClickProp={setButtonClick}
+          />
         </M.Grid>
       </M.Grid>
     </S.Container>
