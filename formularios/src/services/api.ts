@@ -1,16 +1,12 @@
 import axios from "axios";
 
-export async function Api ({ batata, setResposta }: any) {
+export async function Api ( cep : string, setData : any) {
  
-  const baseURL = `https://viacep.com.br/ws/${batata}/json/`
-  
-  console.log(batata, 'batata', batata?.length, 'batata length');
-  
+  const baseURL = `https://viacep.com.br/ws/${cep}/json/`
+
   return axios.get(baseURL)
   .then((response: any) => {
-      setResposta(response.data)
-      console.log(response.data, 'api resposta');
+    setData(response.data)
   })
   .catch(error => console.log(error));
-
 }

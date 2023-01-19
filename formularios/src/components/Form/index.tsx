@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { maskCEP } from "@/utils/mask";
 import * as S from "./styled";
 import * as M from "@mui/material";
 import InputForm from "../InputForm";
 import ButtonSubmit from "../ButtonSubmit";
 import { Api } from "@/services/api";
-
-interface IResposta {
-  bairro: string,
-  localidade: string,
-  logradouro: string,
-  uf: string,
-}
-
+import { IData, IFields } from "./interface";
+import { maskCEP } from "@/utils/mask";
 
 function Form () {
-  const [resposta, setResposta] = useState<IResposta>();
-  const [fields, setFields] = useState<any>({
+  
+  const [fields, setFields] = useState<IFields>({
     cep: "",
     rua: "",
     numero: "",
@@ -24,20 +17,20 @@ function Form () {
     cidade: "",
     estado: ""
   });
-
-  const [batata, setBatata] = useState('');
-
+  
   const handleChange = (e: any) => {
-    setFields({ ...fields, [e.target.name]: e.target.value });
-    // if (fields.cep?.length > 2) {
-      Api({setResposta, batata});
-    // }
-    setBatata(fields?.cep);
+    setFields({ ...fields, [e.target.name]: e.target.value });    
   }
   
-  const [buttonClick, setButtonClick] = useState(false);  
+  const [data, setData] = useState<IData>();
 
-  console.log(fields.cep, 'fields cep', fields.cep.length, 'fields cep length');  
+  useEffect(() => {
+    if (fields?.cep.length === 8) {
+      Api(fields?.cep, setData);
+    }
+  },[fields?.cep])
+
+  const [buttonClick, setButtonClick] = useState(false);     
 
   return (
     <S.Container>
@@ -64,8 +57,7 @@ function Form () {
             nameProp="cep"
             labelProp="CEP"
             handleChangeProp={handleChange}
-            maxLengthProps={{ maxLength: 8 }}
-            fieldsProp={fields}
+            maxLengthProp={{ maxLength: 8 }}
             errorProp={fields.cep?.length === 0 && buttonClick === true}
             valueProp={maskCEP(fields.cep)}
             validateProp={
@@ -79,18 +71,18 @@ function Form () {
             nameProp="rua"
             labelProp="Rua"
             handleChangeProp={handleChange}
-            fieldsProp={fields}
-            valueProp={resposta ? 
-              resposta.logradouro :
+            valueProp={data ?
+              data.logradouro :
               fields.rua
             }
             validateProp={
               fields.rua?.length === 0 && buttonClick === true
               || fields.rua?.length === undefined && buttonClick === true
-              ? true 
-              : false
-            }
-          />
+              ? true
+              : false}
+              errorProp={undefined}
+              maxLengthProp={undefined}
+            />
         </M.Grid>
         <M.Grid
           container
@@ -103,32 +95,33 @@ function Form () {
             nameProp="numero"
             labelProp="Número"
             handleChangeProp={handleChange}
-            fieldsProp={fields}
             errorProp={fields.numero?.length === 0 && buttonClick === true}
             validateProp={
               fields.numero?.length === 0 && buttonClick === true
               || fields.numero?.length === undefined && buttonClick === true
-              ? true 
+              ? true
               : false
             }
+            valueProp={undefined}
+            maxLengthProp={undefined}
           />
           <InputForm
             nameProp="bairro"
             labelProp="Bairro"
             handleChangeProp={handleChange}
-            fieldsProp={fields}
-            // errorProp={fields.bairro?.length === 0}
-            valueProp={resposta ? 
-              resposta.bairro : 
+            valueProp={data ?
+              data.bairro :
               fields.bairro
             }
             validateProp={
               fields.bairro?.length === 0 && buttonClick === true
               || fields.bairro?.length === undefined && buttonClick === true
-              ? true 
+              ? true
               : false
             }
-          />
+            errorProp={undefined}
+            maxLengthProp={undefined}
+            />
         </M.Grid>
         <M.Grid
           container
@@ -141,35 +134,35 @@ function Form () {
             nameProp="cidade"
             labelProp="Cidade"
             handleChangeProp={handleChange}
-            fieldsProp={fields}
-            // errorProp={fields.cidade?.length === 0}
-            valueProp={resposta ? 
-              resposta.localidade : 
+            valueProp={data ?
+              data.localidade :
               fields.cidade
             }
             validateProp={
               fields.cidade?.length === 0 && buttonClick === true
               || fields.cidade?.length === undefined && buttonClick === true
-              ? true 
+              ? true
               : false
             }
+            errorProp={undefined}
+            maxLengthProp={undefined}
           />
           <InputForm
             nameProp="estado"
             labelProp="Estado"
             handleChangeProp={handleChange}
-            fieldsProp={fields}
-            // errorProp={fields.estado?.length === 0}
-            valueProp={resposta ?
-              resposta.uf :
+            valueProp={data ?
+              data.uf :
               fields.estado
             }
             validateProp={
               fields.estado?.length === 0 && buttonClick === true
               || fields.estado?.length === undefined && buttonClick === true
-              ? true 
+              ? true
               : false
             }
+            errorProp={undefined}
+            maxLengthProp={undefined}
           />
         </M.Grid>
         <M.Grid

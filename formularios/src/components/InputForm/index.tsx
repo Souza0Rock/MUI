@@ -1,4 +1,5 @@
 import * as M from "@mui/material";
+import { IProps } from "./interface";
 
 function InputForm ({
   nameProp,
@@ -8,7 +9,7 @@ function InputForm ({
   valueProp,
   maxLengthProp,
   validateProp,
-}: any) {
+}: IProps) {
 
   return (
     <M.TextField
